@@ -19,7 +19,7 @@ and review date. The build rejects stale English lists and malformed or duplicat
 reviews. These translations are not certified by a human Vietnamese lexicographer.
 Where the pinned English gloss is imprecise, a review may also link to a
 Japanese dictionary entry; the kanji page displays that additional source.
-The current reviewed set covers 3,198 characters, including all 1,026 kanji
+The current reviewed set covers 3,199 characters, including all 1,026 kanji
 taught in Japanese elementary school and all 2,136 kanji with a
 KANJIDIC2 grade from 1 through 8. Characters were selected by
 Japanese grade and frequency; Japanese–Chinese meaning collision cases such as
@@ -43,10 +43,12 @@ published character translation must be checked against the Japanese-oriented
 KANJIDIC2 senses and recorded in the review file.
 `npm run data:kanji-vi-queue -- --limit 150 --examples` lists remaining
 characters by Japanese frequency, their pinned English meanings, any exact
-Japanese-word Vietnamese evidence, and JMdict usage examples. Compound usage
+Japanese-word Vietnamese evidence, the supplied Hán Nôm readings and glosses
+as review context, and JMdict usage examples. Hán Nôm glosses are not published
+as Japanese meanings. Compound usage
 alone does not establish a character meaning. Entries whose Japanese meaning is
 unclear stay out of the reviewed file pending more evidence.
-The outside-list audit records **987 reviewed** and **7,186 untranslated**
+The current outside-list count is **988 reviewed** and **7,185 untranslated**
 characters among 8,173 outside N5–N1. This includes 476 newly reviewed
 single-character Japanese headwords and 278 old Japanese character forms
 linked by Unihan `kJapaneseOldVariant`, each checked against its own
@@ -74,9 +76,26 @@ character meaning remains unavailable; Thiều Chửu glosses are not substitute
   used for this transfer.
 - The pinned CC0 digitization of Thiều Chửu's public-domain *Hán Việt tự điển*
   supplies a separately licensed Vietnamese character-reading record.
+- The locally pinned KANJIDIC Vietnamese Yomitan snapshot supplies fallback
+  readings only for kanji with no reading in either source above. Its English
+  companion snapshot checks character alignment. Existing readings and primary
+  selections retain precedence. The snapshot attributes its Vietnamese
+  readings and glosses to hvdic.thivien.net; its glosses are not imported as
+  Japanese character meanings.
 - Project-owned editorial decisions may resolve remaining ambiguity, but only
   when they name a reviewer, review date, selected source-backed candidate, and
   supporting evidence.
+- `data/reviewed/kanji-reading-corrections.json` records narrow, source-checked
+  exceptions with the expected pinned readings, reviewer, date, and evidence URLs.
+  For 梣, HVDic distinguishes Hán Việt **sầm** from Nôm **rầm**; the former
+  replaces the Unihan candidate in the Hán Việt display. For 驫, **ショウ** is
+  added as an attested on reading alongside the existing KANJIDIC2 readings.
+  The build rejects a correction if its expected original readings change.
+
+梣 and 秦 are related in the Japanese botanical spelling 秦皮 (とねりこ,
+Japanese ash). 秦 also denotes the historical Qin dynasty, **nhà Tần**.
+The Qin dynasty is distinct from the later Manchu-led Qing dynasty; the
+supplied English snapshot's “Manchu dynasty” gloss for 秦 is not adopted.
 
 ## Automatic primary rule
 
@@ -93,17 +112,20 @@ readings appended. Alphabetical sorting is not a reading preference. Documented
 source-backed display defaults may precede dictionary order: 本 uses BẢN because
 its pinned dictionary entry explicitly identifies that as the familiar reading.
 会/會 use HỘI before CỐI; 行 uses HÀNH before its alternate readings.
+When both sources lack a reading, the first reading in the pinned KANJIDIC
+Vietnamese record is used for compact display, and all its readings remain
+visible on the character page.
 This is a reproducible general-purpose default, not measured frequency or a
 guarantee that the resulting reading fits every compound. The default definitions
 and supporting notes live in `data/reviewed/han-viet-primary.json`.
 Detailed character views keep all candidates and any separately selected primary.
 
-A word-level `Hán Việt (từng chữ)` aid is emitted only when every literal Han
+A word-level `Hán Việt (từng chữ)` aid is emitted when at least one literal Han
 character has a source-backed candidate, using the first retained reading of each.
-Kana is ignored. Iteration marks and other
-non-kana symbols block derivation. The resulting sequence is a reading aid, not
-a translation or an assertion that the sequence is an established Vietnamese
-word.
+Each Han character without a reading is shown as `ー` in its original position.
+Kana is ignored. Iteration marks and other non-kana symbols block derivation.
+The resulting sequence is a reading aid, not a translation or an assertion that
+the sequence is an established Vietnamese word.
 
 An exact reviewed word form may take display precedence for its exact JMdict
 entry and spelling. The character-derived sequence and its components remain
